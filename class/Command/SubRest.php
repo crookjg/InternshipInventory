@@ -53,12 +53,12 @@ class SubRest {
         $arr = array();
 
         if(isset($_REQUEST['domestic'])){
-            if($_REQUEST['domestic']='true'){
+            if($_REQUEST['domestic']=='true'){
                 $Main = $_REQUEST['main'];
                 $State = $_REQUEST['location'];
                 $sql = "SELECT id, main_host_id, sub_name, sub_condition FROM intern_sub_host WHERE main_host_id = :main AND state = :state ORDER BY sub_name ASC";
                 $arr = array('main' => $Main, 'state'=>$State);
-            } else if($_REQUEST['domestic']='false'){
+            } else if($_REQUEST['domestic']=='false'){
                 $Main = $_REQUEST['main'];
                 $Country = $_REQUEST['location'];
                 $sql = "SELECT id, main_host_id, sub_name, sub_condition FROM intern_sub_host WHERE main_host_id = :main AND country = :country ORDER BY sub_name ASC";

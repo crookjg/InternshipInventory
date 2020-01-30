@@ -104,7 +104,7 @@ class AddInternship {
             $country = $_POST['country'];
         } else {
             $state = $_POST['state'];
-            $country = null;
+            $country = 'US';
         }
 
         // Create a new internship object
@@ -114,17 +114,17 @@ class AddInternship {
         $intern->save();
 
         //TODO check if state is denied
-        if(checkDenied($sub)){
+//        if(checkDenied($sub)){
             $t = \Intern\WorkflowTransitionFactory::getTransitionByName('Intern\WorkflowTransition\CreationTransition');
             $workflow = new \Intern\WorkflowController($intern, $t);
             $workflow->doTransition(null);
             $workflow->doNotification(null);
-        } else{
-            $t = \Intern\WorkflowTransitionFactory::getTransitionByName('Intern\WorkflowTransition\DeniedTransition');
-            $workflow = new \Intern\WorkflowController($intern, $t);
-            $workflow->doTransition(null);
-            $workflow->doNotification(null);
-        }
+//        } else{
+//            $t = \Intern\WorkflowTransitionFactory::getTransitionByName('Intern\WorkflowTransition\DeniedTransition');
+//            $workflow = new \Intern\WorkflowController($intern, $t);
+//            $workflow->doTransition(null);
+//            $workflow->doNotification(null);
+//        }
         // Show a success notice and redirect to the edit page
         \NQ::simple('intern', \Intern\UI\NotifyUI::SUCCESS, "Created internship for {$intern->getFullName()}");
         \NQ::close();

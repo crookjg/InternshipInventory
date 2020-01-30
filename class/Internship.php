@@ -38,7 +38,7 @@ use \PHPWS_Text;
 */
 class Internship {
 
-    const GPA_MINIMUM = 2.0;
+    const GPA_MINIMUM = 2.00;
 
     public $id;
 

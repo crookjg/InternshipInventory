@@ -23,7 +23,7 @@ use Intern\WorkflowTransition;
 use Intern\Internship;
 use Intern\TermFactory;
 
-class CreationTransition extends WorkflowTransition {
+class DeniedTransition extends WorkflowTransition {
     const sourceState = 'CreationState';
     const destState   = 'DeniedState';
     const actionName  = 'Denied Internship';

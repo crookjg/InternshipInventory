@@ -23,7 +23,7 @@ use Intern\WorkflowTransition;
 use Intern\Internship;
 use Intern\TermFactory;
 
-class Reinstate extends WorkflowTransition {
+class UndoDenied extends WorkflowTransition {
     const sourceState = 'DeniedState';
     const destState   = 'NewState';
     const actionName  = 'Host Reinstate';
