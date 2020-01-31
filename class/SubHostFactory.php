@@ -60,4 +60,28 @@ class SubHostFactory {
 
         return $stmt->fetch();
     }
+
+    /**
+    * Get an associative array of every host
+    * in the database.
+    * @return Array Associative array of hosts
+    */
+    public static function getHostAssoc()
+    {
+        $db = PdoFactory::getPdoInstance();
+
+        $stmt = $db->prepare('SELECT id, host_name from intern_host');
+        $stmt->execute();
+        $stmt->setFetchMode(\PDO::FETCH_ASSOC);
+
+        $results = $stmt->fetchAll();
+
+        $hosts = array();
+
+        foreach ($results as $host) {
+            $hosts[$host['id']] = $host['host_name'];
+        }
+
+        return $hosts;
+    }
 }

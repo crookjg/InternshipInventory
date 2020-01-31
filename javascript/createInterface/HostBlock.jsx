@@ -69,7 +69,6 @@ class ModalSubForm extends React.Component {
 
         this.state = {
             showError: false,
-            showError: false,
             warningMsg: '',
             domestic: undefined,
             international: undefined,
@@ -89,7 +88,7 @@ class ModalSubForm extends React.Component {
             this.setState({showError: true, warningMsg: "Please enter host names."});
             return;
         }
-        if ((this.state.domestic === true&&this.refs.sub_city.value === '')||(this.state.domestic === false&&this.refs.sub_province.value === '')) {
+        if ((this.state.domestic === true&&this.refs.sub_city.value === '')||(this.state.domestic === false&&this.refs.sub_province.value === ''&&this.refs.sub_city.value === '')) {
             this.setState({showError: true, warningMsg: "Please enter host names."});
             return;
         }
@@ -103,7 +102,7 @@ class ModalSubForm extends React.Component {
                     country: 'US', other: null}
         } else{
             host = {host: this.refs.host_name.value, name: this.refs.sub_name.value, address: this.refs.sub_address.value,
-                    zip: this.refs.sub_zip.value,city: null, province: this.refs.sub_province.value, state: null,
+                    zip: this.refs.sub_zip.value,city: this.refs.sub_city.value, province: this.refs.sub_province.value, state: null,
                     country: this.state.location, other: null}
         }
 
@@ -128,9 +127,15 @@ class ModalSubForm extends React.Component {
                 <div className="col-lg-9"><input  type="text" className="form-control" id="sub-city" ref="sub_city"/></div>
             </div>);
         } else if (this.state.domestic === false) {
-            loc = (<div className="form-group">
-                <label className="col-lg-3 control-label">Province {require}</label>
-                <div className="col-lg-9"><input  type="text" className="form-control" id="sub-province" ref="sub_province"/></div>
+            loc = (<div>
+                <div className="form-group">
+                  <label className="col-lg-3 control-label">City {require}</label>
+                  <div className="col-lg-9"><input  type="text" className="form-control" id="sub-city" ref="sub_city"/></div>
+                </div>
+                <div className="form-group">
+                  <label className="col-lg-3 control-label">Province {require}</label>
+                  <div className="col-lg-9"><input  type="text" className="form-control" id="sub-province" ref="sub_province"/></div>
+                </div>
             </div>);
         }
         var availHost = null;
@@ -152,7 +157,7 @@ class ModalSubForm extends React.Component {
                 <Modal.Body>
                     <form className="form-horizontal">
                         <div className="form-group">
-                            <label className="col-lg-3 control-label">Sub Name {require}</label>
+                            <label className="col-lg-3 control-label">Host Name {require}</label>
                             <select className="form-control col-lg-9 select-sub-host" id="host-name" ref="host_name">
                                 <option value="-1">Select a Host</option>
                                 {availHost}

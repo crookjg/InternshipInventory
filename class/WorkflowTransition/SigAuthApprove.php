@@ -61,6 +61,5 @@ class SigAuthApprove extends WorkflowTransition {
                 throw new MissingDataException("This internship cannot continue to dean approval without start and end dates.");
             }
         }
-
     }
 }

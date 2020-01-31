@@ -84,9 +84,6 @@ class Internship {
     // Location data
     public $domestic;
     public $international;
-    public $loc_state;
-    public $loc_country;
-    public $loc_phone;
 
     // Term Info
     public $term;
@@ -153,8 +150,8 @@ class Internship {
         $this->department_id = $department->getId();
 
         // Get host
-        $this->host_id = $sub_host->getMainId();
-        $this->host_sub_id = $sub_host->getId();
+        $this->host_id = $sub_host->getHostId();
+        $this->host_sub_id = $sub_host->getSubId();
         $this->supervisor_id = $supervisor->getId();
 
         //TODO Set if denied state
@@ -318,7 +315,21 @@ class Internship {
         // Internship location data
         $csv['Domestic']               = $this->isDomestic() ? 'Yes' : 'No';
         $csv['International']          = $this->isInternational() ? 'Yes' : 'No';
-        $csv['Host Phone']             = $this->loc_phone;
+        $s = $this->getHost();
+
+        if ($s instanceof SubHost) {
+          $csv = array_merge($csv, $s->getCSV());
+        }
+        else {
+          $csv['Host Name'] = '';
+          $csv['Host Sub Name'] = '';
+          $csv['Host Address'] = '';
+          $csv['Host City'] = '';
+          $csv['Host State'] = '';
+          $csv['Host Province'] = '';
+          $csv['Host Zip Code'] = '';
+          $csv['Host Country'] = '';
+        }
 
         // Course Info
         $csv['Multi-part']             = $this->isMultipart() ? 'Yes' : 'No';
@@ -338,9 +349,6 @@ class Internship {
         $f = $this->getFaculty();
         $d = $this->getDepartment();
         $c = DocumentRest::contractAffilationSelected($this->id);
-
-        // Merge data from other objects.
-        $csv = array_merge($csv, $a->getCSV());
 
         // Sets the type and if there are contracts, else sets the name of affiliation if one
         $csv['Agreement Type'] = $c['type'];
@@ -362,7 +370,6 @@ class Internship {
         }
 
         $csv = array_merge($csv, $d->getCSV());
-
         return $csv;
     }
 

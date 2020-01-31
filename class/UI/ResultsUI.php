@@ -111,17 +111,19 @@ class ResultsUI implements UI
         if (isset($_REQUEST['end_date'])) {
             $endDate = $_REQUEST['end_date'];
         }
-        if (isset($_REQUEST['host'])) {
-            $host = $_REQUEST['host'];
+        if (isset($_REQUEST['host_select'])) {
+            $host = $_REQUEST['host_select'];
         }
+        /* Eventually *
         if (isset($_REQUEST['sub_host'])) {
             $subHost = $_REQUEST['sub_host'];
         }
+        */
         /* Get Pager */
         $pager = self::getPager($name, $dept, $term, $ugradMajor, $gradProg,
                         $level, $type, $campus, $loc, $state, $country,
                         $workflowState, $courseSubject, $courseNum, $courseSect,
-                        $oied, $faculty, $startDate, $endDate, $host, $subHost);
+                        $oied, $faculty, $startDate, $endDate, $host);
 
         $pagerContent = $pager->get();
 
@@ -320,11 +322,6 @@ class ResultsUI implements UI
         // Host
         if (!is_null($host) && $host != '-1') {
             $pager->addWhere('host_id', $host);
-        }
-
-        // Sub Host
-        if (!is_null($subHost) && $subHost != '-1') {
-            $pager->addWhere('sub_host_id', $subHost);
         }
 
         // Domestic state

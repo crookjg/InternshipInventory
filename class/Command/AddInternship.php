@@ -104,7 +104,7 @@ class AddInternship {
             $country = $_POST['country'];
         } else {
             $state = $_POST['state'];
-            $country = 'US';
+            $country = null;
         }
 
         // Create a new internship object

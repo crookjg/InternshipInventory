@@ -175,3 +175,7 @@ tr.result-row td a {
 .ui-autocomplete {
     width: 100px;
 }
+
+.offset-right-inline {
+  margin-left: 73.5%;
+}
