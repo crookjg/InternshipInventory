@@ -150,8 +150,8 @@ class Internship {
         $this->department_id = $department->getId();
 
         // Get host
-        $this->host_id = $sub_host->getHostId();
-        $this->host_sub_id = $sub_host->getSubId();
+        $this->host_id = $sub_host->getMainId();
+        $this->host_sub_id = $sub_host->getId();
         $this->supervisor_id = $supervisor->getId();
 
         //TODO Set if denied state

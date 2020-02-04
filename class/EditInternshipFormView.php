@@ -543,7 +543,17 @@ class EditInternshipFormView {
 
         $this->form->addHidden('host_id', $this->host->id);
         $this->tpl['HOST_NAME'] = $this->host->getMainName();
-        $this->tpl['SUB_NAME'] = $this->host->sub_name;
+
+        $host_id = SubHostFactory::getSubHostCond($this->host->main_host_id, $this->host->state, $this->host->country);
+        if (!in_array($this->host->sub_name, $host_id)) {
+          //array_push($host_id, [$this->host->id, $this->host->sub_name]);
+          $host_id[$this->host->id] = $this->host->sub_name;
+        }
+        $this->form->addSelect('SUB_NAME', $host_id);
+        $this->form->setMatch('SUB_NAME', $this->host->id);
+        $this->form->addCssClass('SUB_NAME', 'form-control');
+
+        //$this->tpl['SUB_NAME'] = $this->host->sub_name;
         $this->tpl['HOST_ADDRESS'] = $this->host->address;
         $this->tpl['HOST_CITY'] = $this->host->city;
         $this->tpl['HOST_ZIP'] = $this->host->zip;

@@ -62,6 +62,44 @@ class SubHostFactory {
     }
 
     /**
+    * Get an associative array of every sub host
+    * in the database.
+    * @return Array Associative array of sub hosts
+    */
+    public static function getSubHostCond($m_host_id, $state, $country)
+    {
+        $db = PdoFactory::getPdoInstance();
+        $hosts = array();
+
+        if ($country == 'US') {
+          $stmt = $db->prepare("SELECT ish.id, ish.sub_name FROM intern_sub_host AS ish
+            LEFT JOIN intern_special_host AS isp ON ish.sub_condition=isp.id
+            WHERE ish.state=:state AND ish.main_host_id=:m_host_id
+            AND (ish.sub_condition IS null OR isp.stop_level<>'Stop')");
+          $stmt->execute(array('state' => $state, 'm_host_id' => $m_host_id));
+          $stmt->setFetchMode(\PDO::FETCH_ASSOC);
+
+          $results = $stmt->fetchAll();
+        }
+        else {
+          $stmt = $db->prepare("SELECT ish.id, ish.sub_name FROM intern_sub_host AS ish
+            LEFT JOIN intern_special_host AS isp ON ish.sub_condition=isp.id
+            WHERE ish.country=:country AND ish.main_host_id=:m_host_id
+            AND (ish.sub_condition IS null OR isp.stop_level<>'Stop')");
+          $stmt->execute(array('country' => $country, 'm_host_id' => $m_host_id));
+          $stmt->setFetchMode(\PDO::FETCH_ASSOC);
+
+          $results = $stmt->fetchAll();
+        }
+
+        foreach ($results as $host) {
+            $hosts[$host['id']] = $host['sub_name'];
+        }
+
+        return $hosts;
+    }
+
+    /**
     * Get an associative array of every host
     * in the database.
     * @return Array Associative array of hosts

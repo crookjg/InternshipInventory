@@ -137,14 +137,13 @@ class ModalFormCondition extends React.Component {
 
         this.setState({showError: false,
                        warningMsg: ""});
-        var host = {id: this.props.key,
+        var host = {id: this.props.id,
                        admin_message: this.refs.admin_message.value,
                        user_message: this.refs.user_message.value,
                        stop_level: this.refs.stop_level.value,
                        sup_check: this.refs.sup_check.value,
                        email: this.refs.email.value,
                        special_notes: this.refs.notes.value};
-console.log(host)
         // Call parent's save handler
         this.props.handleSaveHost(host);
     }
@@ -448,9 +447,9 @@ class AllHostList extends React.Component {
             url: 'index.php?module=intern&action=ConditionRest',
             type: 'PUT',
             dataType: 'json',
-            data: {id: con.id, admin: con.admin_message, user: con.user_message,
+            data: JSON.stringify({id: con.id, admin: con.admin_message, user: con.user_message,
                 stop: con.stop_level, sup: con.sup_check, email: con.email, notes: con.special_notes
-               },
+            }),
             success: function(data) {
                 // Grabs the new data
                 this.setState({mainData: data});
@@ -488,8 +487,8 @@ class AllHostList extends React.Component {
         if (this.state.conditionData != null) {
             ConditionData = this.state.conditionData.map(function (host) {
                 return (
-                    <ShowCondition key={host.id} admin={host.admin_message} stop={host.stop_level} user={host.user_message}
-                        sup={host.sup_check} email={host.email} notes={host.notes} handleSave={this.handleSaveCondition}/>
+                    <ShowCondition key={host.id} id={host.id} admin={host.admin_message} stop={host.stop_level} user={host.user_message}
+                        sup={host.sup_check} email={host.email} notes={host.special_notes} handleSave={this.handleSaveCondition}/>
                 );
             }.bind(this));
         } else {
