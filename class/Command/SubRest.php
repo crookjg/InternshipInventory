@@ -68,14 +68,14 @@ class SubRest {
             $sql = "SELECT intern_sub_host.id, sub_name, host_name, admin_message, address, city, state, zip, province, country, other_name, sub_condition, sub_approve_flag, sub_notes
             FROM intern_sub_host JOIN intern_host ON intern_sub_host.main_host_id = intern_host.id JOIN intern_special_host ON intern_sub_host.sub_condition = intern_special_host.id WHERE sub_condition IS NOT NULL ORDER BY sub_name ASC";
         } else{
-            $sql = "SELECT intern_sub_host.id, sub_name, host_name, address, city, state, zip, province, country, other_name, sub_condition, sub_approve_flag, sub_notes
+            $sql = "SELECT intern_sub_host.id, main_host_id, sub_name, host_name, address, city, state, zip, province, country, other_name, sub_condition, sub_approve_flag, sub_notes
             FROM intern_sub_host JOIN intern_host ON intern_sub_host.main_host_id = intern_host.id ORDER BY sub_name ASC";
         }
 		$sth = $pdo->prepare($sql);
 		$sth->execute($arr);
 		$result = $sth->fetchAll(\PDO::FETCH_ASSOC);
 
-		return $result;
+        return $result;
     }
 
     //New Host
@@ -123,37 +123,39 @@ class SubRest {
 
     //Update Host
     public function put() {
-        $Id = $_REQUEST['id'];
-        $Main = $_REQUEST['main'];
-        $Name = $_REQUEST['name'];
-        $Address = $_REQUEST['address'];
-        $City = $_REQUEST['city'];
-        $State = $_REQUEST['state'];
-        $Zip = $_REQUEST['zip'];
-        $Province = $_REQUEST['province'];
-        $Country = $_REQUEST['country'];
-        $OtherName = $_REQUEST['other'];
-        $Condition = $_REQUEST['condition'];
-        $Date = $_REQUEST['dates'];
-        $Flag = $_REQUEST['flag'];
-        $Notes = $_REQUEST['notes'];
+        $postarray = json_decode(file_get_contents('php://input'));
+        $Id = $postarray->id;
+        $Name = $postarray->name;
+        $Address = $postarray->address;
+        $City = $postarray->city;
+        $State = $postarray->state;
+        $Zip = $postarray->zip;
+        $Province = $postarray->province;
+        $Country = $postarray->country;
+        $OtherName = $postarray->other;
+        $Condition = $postarray->condition;
+        if ($Condition == '') {
+            $Condition = null;
+        }
+        //$Date = $postarray->dates;
+        $Flag = $postarray->flag;
+        //$Notes = $postarray->notes;
 
         $db = Database::newDB();
         $pdo = $db->getPDO();
 
         $sql = "UPDATE intern_sub_host
-                SET main_host_id=:main, sub_name=:name, address=:address, city=:city,
+                SET sub_name=:name, address=:address, city=:city,
                 state=:state, zip=:zip, province=:province, country=:country,
                 other_name=:otherName, sub_condition=:condition,
-                sub_condition_date=:dates, sub_approve_flag=:flag, sub_notes=:notes
-                WHERE id=:id";
+                sub_approve_flag=:flag WHERE id=:id";
 
         $sth = $pdo->prepare($sql);
-        $sth->execute(array('id'=>$Id, 'main'=>$main, 'name'=>$Name, 'address'=>$Address,
+        $sth->execute(array('id'=>$Id, 'name'=>$Name, 'address'=>$Address,
                     'city'=>$City, 'state'=>$State, 'zip'=>$Zip,
                     'province'=>$Province, 'country'=>$Country,
-                    'otherName'=>$OtherName, 'condition'=>$Condition,'dates'=>$Date,
-                    'flag'=>$Flag, 'notes'=>$notes));
-
+                    'otherName'=>$OtherName, 'condition'=>$Condition,
+                    'flag'=>$Flag));
+        echo json_encode("Success");
     }
 }

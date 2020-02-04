@@ -28,8 +28,7 @@ class ModalFormHost extends React.Component {
 
         this.setState({showError: false,
                        warningMsg: ""});
-        var host = {id: this.props.key,
-                       main: this.refs.host_main.value,
+        var host = {id: this.props.id,
                        name: this.refs.host_name.value,
                        address: this.refs.host_address.value,
                        city: this.refs.host_city.value,
@@ -40,7 +39,6 @@ class ModalFormHost extends React.Component {
                        other:this.refs.host_other.value,
                        condition: this.refs.host_condition.value,
                        flag: this.refs.host_flag.value};
-
         // Call parent's save handler
         this.props.handleSaveHost(host);
     }
@@ -65,7 +63,7 @@ class ModalFormHost extends React.Component {
                     <form className="form-horizontal">
                         <div className="form-group">
                             <label className="col-lg-3 control-label">Host Name</label>
-                            <div className="col-lg-9"><input  type="text" className="form-control" id="host-main" ref="host_main" defaultValue={this.props.main}/></div>
+                            <div className="col-lg-9"><p type="text" className="form-control-static" id="host-main" ref="host_main">{this.props.main}</p></div>
                         </div>
                         <div className="form-group">
                             <label className="col-lg-3 control-label">Sub Name</label>
@@ -429,10 +427,10 @@ class AllHostList extends React.Component {
             url: 'index.php?module=intern&action=SubRest',
             type: 'PUT',
             dataType: 'json',
-            data: {id: host.id, name: host.name, main: host.main, address: host.address,
+            data: JSON.stringify({id: host.id, name: host.name, address: host.address,
                 city: host.city, state: host.state, zip: host.zip, province: host.province,
-                country: host.country, other: host.other, condition: host.condition, flag: host.flag,
-               },
+                country: host.country, other: host.other, condition: host.condition, flag: host.flag
+            }),
             success: function(data) {
                 // Grabs the new data
                 this.setState({mainData: data});
@@ -499,7 +497,7 @@ class AllHostList extends React.Component {
         if (this.state.mainData != null) {
             HostData = this.state.mainData.map(function (host) {
                 return (
-                    <ShowAllHost key={host.id} main={host.host_name} name={host.sub_name} address={host.address}
+                    <ShowAllHost key={host.id} id={host.id} main={host.host_name} name={host.sub_name} address={host.address}
                         city={host.city} state={host.state} zip={host.zip} province={host.province} country={host.country}
                         other={host.other_name} condition={host.sub_condition} flag={host.sub_approve_flag} handleSave={this.handleSaveSub}/>
                 );
