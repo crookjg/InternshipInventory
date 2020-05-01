@@ -110,7 +110,7 @@ class SubHostFactory {
         $stmt->setFetchMode(\PDO::FETCH_ASSOC);
         $result = $stmt->fetch();
 
-        if (sizeof($result) > 0 && $result != false){
+        if ($result != false && sizeof($result) > 0) {
             return $result;
         }
 

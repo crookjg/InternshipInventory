@@ -127,7 +127,7 @@ class AddInternship {
         // Show a success notice and redirect to the edit page
         \NQ::simple('intern', \Intern\UI\NotifyUI::SUCCESS, "Created internship for {$intern->getFullName()}");
         \NQ::close();
-
+        
         return \PHPWS_Core::reroute('index.php?module=intern&action=ShowInternship&internship_id=' . $intern->getId());
     }
 

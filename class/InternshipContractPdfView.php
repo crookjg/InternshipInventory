@@ -183,20 +183,20 @@ class InternshipContractPdfView {
 
         $host_address = $h->getStreetAddress();
 
-        //TODO: make this smarter so it adds the line break between words
         if(strlen($host_address) < 51){
             // If it's short enough, just write it
             $this->pdf->setXY(127, 128);
             $this->pdf->cell(77, 5, $host_address);
-        }else{
-            // Too long, need to use two lines
-            $hostLine1 = substr($host_address, 0, 48); // get first 50ish chars
-            $hostLine2 = substr($host_address, 48); // get the rest, hope it fits
+        } else {
+            //break the string at a word before 50 chars
+            $addr = wordwrap($host_address, 50);
+            $addr1 = substr($addr, 0, strpos($addr, "\n"));
+            $addr2 = substr($addr, strpos($addr, "\n"));
 
             $this->pdf->setXY(127, 128);
-            $this->pdf->cell(77, 5, $hostLine1);
-            $this->pdf->setXY(113, 133);
-            $this->pdf->cell(77, 5, $hostLine2);
+            $this->pdf->cell(77, 5, $addr1);
+            $this->pdf->setXY(112, 133);
+            $this->pdf->cell(77, 5, $addr2);
         }
 
         /**

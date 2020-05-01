@@ -37,7 +37,6 @@ class ShowInternship {
             \NQ::close();
             \PHPWS_Core::reroute('index.php');
         }
-
         // Load the Internship
         try{
             $intern = InternshipFactory::getInternshipById($_REQUEST['internship_id']);
