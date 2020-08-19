@@ -111,7 +111,7 @@ class ModalFormHost extends React.Component {
                         </div>
                         <div className="form-group">
                             <label className="col-lg-3 control-label">Sub Condition</label>
-                            <select className="col-lg-4" id="host-condition" ref="host_condition" defaultValue={this.props.conId}>
+                            <select className="form-control col-lg-7 select-sub-host" id="host-condition" ref="host_condition" defaultValue={this.props.conId}>
                                 <option value="-1">Select a Condition</option>
                                 {conData}
                             </select>
@@ -877,13 +877,15 @@ class AllHostList extends React.Component {
                                 </tr>
                             </thead>
                         </table>
-                    <ul className="list-group">
-                        {HostData}
-                    </ul>
+                    <div id="container" className="col host-overflow">
+                        <ul className="list-group bottom-host-ul">
+                            {HostData}
+                        </ul>
+                    </div>
             </div>
-
         );
     }
 }
+
 
 ReactDOM.render(<AllHostList />, document.getElementById('approve_host'));

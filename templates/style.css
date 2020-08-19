@@ -150,6 +150,15 @@ form .required label:after {
   color: white;
   transition: .25s ease;
 }
+.host-overflow {
+    overflow-y: auto;
+    height: auto;
+    max-height: 800px;
+    overscroll-behavior: auto;
+}
+.bottom-host-ul {
+    margin-bottom: 0 !important;
+}
 
 /*** Request Sub Host ***/
 .select-sub-host {
@@ -178,4 +187,18 @@ tr.result-row td a {
 
 .offset-right-inline {
   margin-left: 73.5%;
+}
+
+/* Mobile Site */
+@media only screen and (max-width: 991px) {
+    .form-align {
+        left: 2%;
+        width: 96.3%;
+    }
+    #small-button1 {
+        width: 6%;
+    }
+    #small-button2 {
+        width: 6%;
+    }
 }
